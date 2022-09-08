@@ -1,9 +1,8 @@
 import { Component } from 'react';
 import Form from 'components/Form';
-// import {nanoid} from 'nanoid'
 import Section from 'components/Section';
 import Contacts from 'components/Contacts';
-
+import PropTipes from 'prop-types'
 
 
 export class App extends Component {
@@ -19,13 +18,11 @@ export class App extends Component {
   handleFilter = () => {
     const target = this.state.filter
     const filteredUsers = this.state.contacts.filter(user => user.userName.includes(target))
-    console.log(filteredUsers)
     return filteredUsers
   }
   handleChange = (event) => {
     const inputName = event.target.name
     const value = event.target.value.toLowerCase() 
-    console.log(event.target.value)
     this.setState({[inputName]: value})
   }
   handleDelete = (event) => {
@@ -59,5 +56,14 @@ export class App extends Component {
   }
 }
 
+App.propTipes = {
+  state: PropTipes.shape({
+    contacts: PropTipes.array,
+    filter: PropTipes.string
+  }),
+  changeState: PropTipes.shape({
+    arr: PropTipes.array
+  })
+}
 
 

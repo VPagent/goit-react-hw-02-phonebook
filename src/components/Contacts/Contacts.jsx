@@ -1,16 +1,18 @@
 import {nanoid }from 'nanoid'
+import PropTypes from 'prop-types'
+import s from 'components/Contacts/Contacts.module.css'
 
 function Contacts ({options, onChangeInput, onHandle}){
 
     return(
         <>
-        <label>
+        <label className={s.contactForm}>
             Find contacts by name
-            <input type="text" name="filter" onChange={onChangeInput} />
+            <input className={s.contactInput} type="text" name="filter" onChange={onChangeInput} />
         </label>
-        <ul>
+        <ul className={s.contactList}>
             {options.map(({id, userName, tel}) => (
-                <li key={id} onClick={onHandle}>
+                <li key={id} className={s.contactItem} onClick={onHandle}>
                     name:{userName} tel:{tel}
                     <button key={nanoid(2)} type="button" name={userName} >Delete</button>
                 </li>
@@ -20,3 +22,9 @@ function Contacts ({options, onChangeInput, onHandle}){
     )
 }
 export default Contacts
+
+Contacts.propTypes = {
+    options: PropTypes.array.isRequired,
+    onChangeInput: PropTypes.func.isRequired,
+    onHandle: PropTypes.func.isRequired
+}

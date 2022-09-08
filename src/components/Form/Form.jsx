@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import {nanoid} from 'nanoid'
+import s from 'components/Form/Form.module.css'
+import PropTypes from 'prop-types'
 
 class Form extends Component {
   state = {
@@ -11,7 +13,6 @@ class Form extends Component {
     const {name, number} = this.state
     const arr = []
     event.preventDefault()
-    console.log(this.props.options)
     const key = nanoid(3)
     const obj = {userName: name, id: key, tel: number}
     const inspect = this.props.options.some(elem => elem.userName === name)
@@ -34,10 +35,11 @@ class Form extends Component {
   render() {
     
     return (
-      <form action="" onSubmit={this.handleSubmit}>
-        <label>
+      <form className={s.form} action="" onSubmit={this.handleSubmit}>
+        <label className={s.label}>
           Name
           <input
+            className={s.input}
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -47,9 +49,10 @@ class Form extends Component {
             onChange={this.handleChange}
           />
         </label>
-        <label>
+        <label className={s.label}>
           Tel
           <input
+            className={s.input}
             type="tel"
             name="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -67,3 +70,17 @@ class Form extends Component {
 }
 export default Form;
 
+Form.propTypes = {
+    state: PropTypes.shape({
+        name: PropTypes.string,
+        number: PropTypes.string
+    }),
+    handleSubmit: PropTypes.shape({
+        onSetApp: PropTypes.func.isRequired,
+        arr: PropTypes.arrayOf({
+            userName: PropTypes.string.isRequired,
+            id: PropTypes.string.isRequired,
+            tel: PropTypes.number.isRequired
+        })
+    })
+}
