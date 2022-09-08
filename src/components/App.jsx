@@ -1,0 +1,63 @@
+import { Component } from 'react';
+import Form from 'components/Form';
+// import {nanoid} from 'nanoid'
+import Section from 'components/Section';
+import Contacts from 'components/Contacts';
+
+
+
+export class App extends Component {
+  state = {
+    contacts: [],
+    filter: '',
+  };
+  
+  changeState = (arr) => {
+    const {contacts} = this.state
+    this.setState({contacts: [...contacts, ...arr]})
+  }
+  handleFilter = () => {
+    const target = this.state.filter
+    const filteredUsers = this.state.contacts.filter(user => user.userName.includes(target))
+    console.log(filteredUsers)
+    return filteredUsers
+  }
+  handleChange = (event) => {
+    const inputName = event.target.name
+    const value = event.target.value.toLowerCase() 
+    console.log(event.target.value)
+    this.setState({[inputName]: value})
+  }
+  handleDelete = (event) => {
+    const {contacts} = this.state
+    const withoutDel = contacts.filter(user => user.userName !== event.target.name)
+    this.setState({contacts: [...withoutDel]})
+  }
+  
+  render() {
+    const filterValue = this.state.filter
+    return (
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontSize: 40,
+          color: '#010101',
+        }}
+      >
+        <Section title={"Phonebook"}>
+          <Form onSetApp={this.changeState} options={this.state.contacts}></Form>
+        </Section>
+        <Section title={"Contacts"}>
+          <Contacts options={!filterValue? this.state.contacts : this.handleFilter()} onChangeInput={this.handleChange} filterValue={this.state.filter} onHandle={this.handleDelete}/>
+        </Section>
+      </div>
+    );
+  }
+}
+
+
+
